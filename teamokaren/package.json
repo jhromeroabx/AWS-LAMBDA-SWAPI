@@ -9,5 +9,8 @@
     "axios": "^1.7.7",
     "express": "^4.19.2",
     "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "serverless-openapi-documentation": "^0.4.0"
   }
 }

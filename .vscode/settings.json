@@ -1,0 +1,11 @@
+{
+    "serverlessConsole.services": [
+        {
+            "type": "dynamodb",
+            "title": "registro_personajes",
+            "tableName": "registro_personajes",
+            "awsProfile": "default",
+            "region": "us-east-1"
+        }
+    ]
+}

@@ -13,7 +13,7 @@ export const handler = async (event: any) => {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Error al obtener el personaje' }),
+      body: JSON.stringify({ error: 'Error al obtener el personaje' + error.message }),
     };
   }
 };
