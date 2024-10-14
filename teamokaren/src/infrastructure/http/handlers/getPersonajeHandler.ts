@@ -1,7 +1,8 @@
 import { GetPersonajeUseCase } from '../../../application/use-cases/GetPersonajeUseCase';
 
 export const handler = async (event: any) => {
-  const id = event.pathParameters.id;
+  // const id = event.pathParameters.id;
+  const id = event.queryStringParameters?.id;
   const getPersonajeUseCase = new GetPersonajeUseCase();
 
   try {
