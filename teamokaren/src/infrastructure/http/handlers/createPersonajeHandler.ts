@@ -1,5 +1,9 @@
 import { DynamoDBPersonajeRepository } from '../../dynamodb/DynamoDBPersonajeRepository';
 import { CreatePersonajeUseCase } from '../../../application/use-cases/CreatePersonajeUseCase';
+import dotenv from 'dotenv';
+
+// Cargar variables de entorno
+dotenv.config();
 
 const personajeRepository = new DynamoDBPersonajeRepository();
 const createPersonajeUseCase = new CreatePersonajeUseCase(personajeRepository);

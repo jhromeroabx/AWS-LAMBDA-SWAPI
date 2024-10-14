@@ -21,7 +21,8 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - ${env:DYNAMODB_TABLE}  # Usamos la variable de entorno
+            # - ${env:DYNAMODB_TABLE}  # Usamos la variable de entorno
+            - arn:aws:dynamodb:us-east-1:148761658682:table/registro_personajes  # Usamos la variable de entorno
 
   environment:
     PERSONAJES_TABLE: registro_personajes
