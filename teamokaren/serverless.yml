@@ -1,0 +1,58 @@
+org: kajho
+app: teamokaren1
+service: teamokaren
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [RegistroPersonajesTable, Arn]
+
+  environment:
+    PERSONAJES_TABLE: registro_personajes
+
+functions:
+  postPersonaje:
+    handler: src/application/handlers/createPersonajeHandler.handler
+    events:
+      - httpApi:
+          path: /personajes
+          method: POST
+
+  getPersonaje:
+    handler: src/infrastructure/http/handlers/getPersonajeHandler.handler
+    events:
+      - httpApi:
+          path: /personajes/{id}
+          method: GET
+
+resources:
+  Resources:
+    RegistroPersonajesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: registro_personajes
+
+stages:
+  default:
+    params:
+      tableName: "registro_personajes"
