@@ -11,7 +11,14 @@
     "express": "^4.19.2",
     "serverless-http": "^3.2.0"
   },
+  "scripts": {
+    "deploy:dev": "copy .env.dev .env && sls deploy --stage dev",
+    "deploy:prod": "cp .env.prod .env && sls deploy --stage prod"
+  },
   "devDependencies": {
+    "@types/node": "^24.0.0",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^14.4.0",
     "serverless-openapi-documentation": "^0.4.0"
   }
 }

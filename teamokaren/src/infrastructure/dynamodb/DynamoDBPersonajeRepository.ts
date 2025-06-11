@@ -2,31 +2,32 @@ import { IPersonajeRepository } from '../../domain/repositories/IPersonajeReposi
 import { Personaje } from '../../domain/entities/Personaje';
 import { DynamoDB } from 'aws-sdk';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { config } from '../../config';
 
 export class DynamoDBPersonajeRepository implements IPersonajeRepository {
   private dynamoDb = new DynamoDB.DocumentClient();
-
+  private readonly tableName = config.personajesTable;
   async create(personaje: Personaje): Promise<void> {
-    const tableName = process.env.DYNAMODB_TABLE;
-    if (!tableName) {
+
+    if (!this.tableName) {
       throw new Error('DYNAMODB_TABLE is not defined');
     }
 
     const params = {
-      TableName: tableName,
+      TableName: this.tableName,
       Item: personaje,
     };
     await this.dynamoDb.put(params).promise();
   }
 
   async getById(id: string): Promise<Personaje | null> {
-    const tableName = process.env.DYNAMODB_TABLE;
-    if (!tableName) {
+
+    if (!this.tableName) {
       throw new Error('DYNAMODB_TABLE is not defined');
     }
 
     const params = {
-      TableName: tableName,
+      TableName: this.tableName,
       Key: { id },
     };
     const result = await this.dynamoDb.get(params).promise();
@@ -34,26 +35,26 @@ export class DynamoDBPersonajeRepository implements IPersonajeRepository {
   }
 
   async getAll(): Promise<Personaje[]> {
-    const tableName = process.env.DYNAMODB_TABLE;
-    if (!tableName) {
+
+    if (!this.tableName) {
       throw new Error('DYNAMODB_TABLE is not defined');
     }
 
     const params = {
-      TableName: tableName,
+      TableName: this.tableName,
     };
     const result = await this.dynamoDb.scan(params).promise();
     return result.Items as Personaje[];
   }
 
   async update(id: string, personaje: Partial<Personaje>): Promise<void> {
-    const tableName = process.env.DYNAMODB_TABLE;
-    if (!tableName) {
+
+    if (!this.tableName) {
       throw new Error('DYNAMODB_TABLE is not defined');
     }
 
     const params = {
-      TableName: tableName,
+      TableName: this.tableName,
       Key: { id },
       UpdateExpression: 'set #nombre = :nombre, #altura = :altura',
       ExpressionAttributeNames: {
@@ -69,13 +70,13 @@ export class DynamoDBPersonajeRepository implements IPersonajeRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const tableName = process.env.DYNAMODB_TABLE;
-    if (!tableName) {
+
+    if (!this.tableName) {
       throw new Error('DYNAMODB_TABLE is not defined');
     }
 
     const params = {
-      TableName: tableName,
+      TableName: this.tableName,
       Key: { id },
     };
     await this.dynamoDb.delete(params).promise();

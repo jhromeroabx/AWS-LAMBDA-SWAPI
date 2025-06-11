@@ -13,9 +13,7 @@ export class GetPersonajeUseCase {
 
   async execute(id: string): Promise<any> {
     try {
-      // Usamos un query parameter para pasar el ID
-      const url = `${this.baseUrl}?id=${id}&format=json`;
-      console.log("URL_BASE: -----> " + url);
+      const url = `${this.baseUrl}/${id}`;
       const response = await axios.get(url);
       return response.data;
     } catch (error) {

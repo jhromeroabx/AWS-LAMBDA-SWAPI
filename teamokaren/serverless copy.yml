@@ -1,0 +1,183 @@
+org: kajho
+app: teamokaren1
+service: teamokaren
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-openapi-documentation
+  - serverless-offline
+
+custom:
+  personajesTable: ${env:PERSONAJES_TABLE}
+  # accountId: 148761658682
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            # - ${env:DYNAMODB_TABLE}  # Usamos la variable de entorno
+            # - arn:aws:dynamodb:us-east-1:148761658682:table/registro_personajes  # Usamos la variable de entorno
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.personajesTable}
+            # - arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/${self:custom.personajesTable}
+
+  environment:
+    PERSONAJES_TABLE: ${self:custom.personajesTable}
+
+functions:
+  postPersonaje:
+    handler: src/infrastructure/http/handlers/createPersonajeHandler.handler
+    events:
+      - httpApi:
+          path: /personajes
+          method: POST
+    documentation:
+      summary: "Crea un nuevo personaje"
+      description: "Este endpoint permite crear un nuevo personaje en la base de datos."
+      requestBody:
+        description: "Datos del personaje a crear."
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                nombre:
+                  type: string
+                altura:
+                  type: string
+                masa:
+                  type: string
+                color_cabello:
+                  type: string
+                color_piel:
+                  type: string
+                color_ojos:
+                  type: string
+                año_nacimiento:
+                  type: string
+                género:
+                  type: string
+                planeta_origen:
+                  type: string
+                películas:
+                  type: array
+                  items:
+                    type: string
+                especies:
+                  type: array
+                  items:
+                    type: string
+                vehículos:
+                  type: array
+                  items:
+                    type: string
+                naves_estelares:
+                  type: array
+                  items:
+                    type: string
+                creado:
+                  type: string
+                editado:
+                  type: string
+                url:
+                  type: string
+      responses:
+        201:
+          description: "Personaje creado exitosamente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  personajeId:
+                    type: string
+        400:
+          description: "Error en la solicitud (faltan campos o son inválidos)."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  getPersonaje:
+    handler: src/infrastructure/http/handlers/getPersonajeHandler.handler
+    events:
+      - httpApi:
+          path: /personajes/{id}
+          method: GET
+    documentation:
+      summary: "Obtiene un personaje por ID"
+      description: "Este endpoint permite obtener un personaje específico de la base de datos."
+      pathParameters:
+        id:
+          description: "ID del personaje a obtener."
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Personaje obtenido exitosamente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  nombre:
+                    type: string
+                  altura:
+                    type: string
+                  masa:
+                    type: string
+                  color_cabello:
+                    type: string
+                  color_piel:
+                    type: string
+                  color_ojos:
+                    type: string
+                  año_nacimiento:
+                    type: string
+                  género:
+                    type: string
+                  planeta_origen:
+                    type: string
+                  películas:
+                    type: array
+                    items:
+                      type: string
+                  especies:
+                    type: array
+                    items:
+                      type: string
+                  vehículos:
+                    type: array
+                    items:
+                      type: string
+                  naves_estelares:
+                    type: array
+                    items:
+                      type: string
+                  creado:
+                    type: string
+                  editado:
+                    type: string
+                  url:
+                    type: string

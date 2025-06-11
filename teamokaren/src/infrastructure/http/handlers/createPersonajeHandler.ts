@@ -14,9 +14,12 @@ export const handler = async (event) => {
   try {
     await createPersonajeUseCase.execute(data);
     return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Personaje creado correctamente' })
+      statusCode: 201,
+      body: JSON.stringify({
+        message: 'Personaje creado exitosamente'
+      })
     };
+
   } catch (error) {
     return {
       statusCode: 500,
