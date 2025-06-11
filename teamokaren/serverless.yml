@@ -3,7 +3,6 @@ app: teamokaren1
 service: teamokaren
 
 plugins:
-  - serverless-dotenv-plugin
   - serverless-offline
 
 custom:
@@ -38,6 +37,13 @@ functions:
     events:
       - httpApi:
           path: /personajes
+          method: POST
+  
+  postPersonajeMongo:
+    handler: src/infrastructure/http/handlers/createPersonajeMongoHandler.handler
+    events:
+      - httpApi:
+          path: /mongo/personajes
           method: POST
 
   getPersonaje:

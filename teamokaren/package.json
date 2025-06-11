@@ -1,7 +1,12 @@
 {
   "name": "teamokaren",
   "version": "1.0.0",
-  "description": "",
+  "description": "Proyecto AWS Lambda con Serverless Framework",
+  "scripts": {
+    "deploy:dev": "copy .env.dev .env && npx serverless deploy --stage dev",
+    "deploy:prod": "copy .env.prod .env && npx serverless deploy --stage prod",
+    "offline": "npx serverless offline"
+  },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.585.0",
     "@aws-sdk/lib-dynamodb": "^3.585.0",
@@ -9,15 +14,12 @@
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mongoose": "^8.15.1",
     "serverless-http": "^3.2.0"
-  },
-  "scripts": {
-    "deploy:dev": "copy .env.dev .env && sls deploy --stage dev",
-    "deploy:prod": "cp .env.prod .env && sls deploy --stage prod"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
-    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless": "^4.17.0",
     "serverless-offline": "^14.4.0",
     "serverless-openapi-documentation": "^0.4.0"
   }

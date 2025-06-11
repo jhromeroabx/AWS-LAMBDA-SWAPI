@@ -13,7 +13,7 @@ export class GetPersonajeUseCase {
 
   async execute(id: string): Promise<any> {
     try {
-      const url = `${this.baseUrl}/${id}`;
+      const url = `${this.baseUrl}${id}`;
       const response = await axios.get(url);
       return response.data;
     } catch (error) {
