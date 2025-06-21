@@ -7,6 +7,8 @@ plugins:
 
 custom:
   personajesTable: ${env:PERSONAJES_TABLE}
+  swapiUrl: ${env:SWAPI_URL}
+  mongoUri: ${env:MONGODB_URI}
   # accountId: 148761658682
 
 provider:
@@ -30,6 +32,8 @@ provider:
 
   environment:
     PERSONAJES_TABLE: ${self:custom.personajesTable}
+    SWAPI_URL: ${self:custom.swapiUrl}
+    MONGODB_URI: ${self:custom.mongoUri}
 
 functions:
   postPersonaje:
